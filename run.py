@@ -65,13 +65,16 @@ def figlet():
 import pyfiglet
 import random
 import time
+import sys
 
 colors = ['\033[31m', '\033[39m']
 banner = pyfiglet.figlet_format('{name}', font='{font}')
-for char in banner.split('\\n'):
+for char in banner:
     color = random.choice(colors)
-    print(color + char + '\033[0m')
-    time.sleep(0.05)
+    sys.stdout.write(color + char + "\033[0m")
+    sys.stdout.flush()
+    time.sleep(0.02)
+print()
 """
     
     #banner python file write
@@ -99,6 +102,8 @@ def hacker():
     #hacker script
     hacker_script = f"""
 import os
+import sys
+import time
     
 os.system("clear")
 banner = '''
@@ -116,7 +121,11 @@ banner = '''
 ⡿⠟⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⡀⠀⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 '''
-print(banner)
+for char in banner:
+    sys.stdout.write(char)
+    sys.stdout.flush()
+    time.sleep(0.01)
+print()
     """
     #banner python file write
     with open("banner.py", "w") as f:
@@ -137,22 +146,64 @@ print(banner)
         print("\033[91m[!] Not Found bashrc \033[0m")
 
 
+#animate_welcomme
+def animate_welcome():
+    #get name
+    name = input("\033[34mWhat's your name ?\033[0m: ")
+    #animate_welcomee script
+    animate_wel = f"""
+import os
+import time
+import sys
+
+os.system('clear')
+wel = 'welcome to Termux, {name}'
+for char in wel:
+    sys.stdout.write(char)
+    sys.stdout.flush()
+    time.sleep(0.05)
+print()
+time.sleep(0.2)
+os.system('clear')
+banner = '''
+\033[38;2;95;215;0m########:'########:'########::  
+... ##..:: ##.....:: ##.... ##:  
+\033[38;2;135;255;135m::: ##:::: ##::::::: ##:::: ##:  
+::: ##:::: ######::: ########::     \\033[91m@{name}\033[38;2;135;255;135m  
+\033[38;2;135;255;215m::: ##:::: ##...:::: ##.. ##:::  
+\033[38;2;175;255;255m::: ##:::: ##::::::: ##::. ##::  
+::: ##:::: ########: ##:::. ##:MUX
+'''
+for char in banner:
+    sys.stdout.write(char)
+    sys.stdout.flush()
+    time.sleep(0.01)
+print()
+"""
+    #write python file
+    with open("banner.py", "w") as f:
+        f.write(animate_wel)
+        f.close()
+
+    
 #update check 
 def update_check():
     version = "1.0"
     repo = "atdevlk/next-b"
-    url = f"https://api.github.com/repo/{repo}/releases/latest"
-    
-    try:
-        res = requests.get(url, timeout=5)
-        latest = res.json()["h4"].lstrip("v")
+    url = f"https://api.github.com/repos/{repo}/releases/latest"
 
-        if latest != version:
-            print("\033[92mUpdate Avalible ✓ \033[0m")
-        else:
-            print("\033[92mYou are on latest version \033[0m")
-    except:
-        print("\033[91mUpdate check error ! \033[0m")
+    with console.status("Scanning..") as status:
+         try:
+            res = requests.get(url, timeout=5) 
+            res.raise_for_status()
+            latest = res.json()["tag_name"].lstrip("v")
+
+            if latest != version:
+                console.print("[green]Update Avalible ✓ [/green]")
+            else:
+                console.print("[green]You are on latest version [/green]")
+         except:
+             console.print("[red]Update check error ! [/red]")
 
     
 #print main banner
@@ -160,7 +211,8 @@ os.system("clear")
 print(banner)
 cmd = questionary.select(
     "Enter your choice",
-     choices= ["Figlet", "Hacker", "Update", "About", "Exit"],
+     choices= ["Figlet", "Hacker", "Animate_welcome",
+                "Update", "About", "Exit"],
      style = qu_style
 ).ask()
 
@@ -173,6 +225,10 @@ while True:
         
     elif cmd == "Hacker":
         hacker()
+        break
+
+    elif cmd == "Animate_welcome":
+        animate_welcome()
         break
 
     elif cmd == "About":
