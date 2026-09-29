@@ -4,11 +4,11 @@
 
 **Developed by ATDevLk**
 
-<h4>V 1.0</h4>
+<h4>V 1.1</h4>
 
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Open Source](https://img.shields.io/badge/Open%20Source-Yes-blue.svg)
-![Version](https://img.shields.io/badge/Version-1.0-orange.svg)
+![Version](https://img.shields.io/badge/Version-1.1-orange.svg)
 
 </div>
 
